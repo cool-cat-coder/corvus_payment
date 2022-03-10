@@ -1,8 +1,8 @@
 <?php
 
-namespace CoolCatCoder;
+namespace Corvus;
 
-use CoolCatCoder\Services\Corvus;
+use Corvus\Services\Corvus;
 use Illuminate\Support\ServiceProvider;
 
 class CorvusServiceProvider extends ServiceProvider
@@ -29,7 +29,7 @@ class CorvusServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('corvus',function($app)
+        $this->app->singleton('corvus',function()
         {
             return new Corvus();
         });

@@ -1,6 +1,6 @@
 <?php
 
-namespace CoolCatCoder\Facades;
+namespace Corvus\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

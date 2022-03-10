@@ -1,9 +1,8 @@
 <?php
-namespace CoolCatCoder\Services;
+namespace Corvus\Services;
 
 
 use Exception;
-use GuzzleHttp\Client;
 use \Illuminate\Support\Facades\Config;
 
 class Corvus
@@ -22,7 +21,7 @@ class Corvus
         'RSD'
     ];
 
-    public function __construct(Client $client)
+    public function __construct()
     {
         $this->client = new CorvusRequest();
 
