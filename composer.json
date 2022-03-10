@@ -1,5 +1,5 @@
 {
-    "name": "coolcoder/corvus",
+    "name": "coolCatCoder/corvus",
     "description": "Laravel Library For Processing Payments Trough Corvus Payment System",
     "type": "library",
     "license": "MIT",
