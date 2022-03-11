@@ -13,7 +13,7 @@
     },
   "autoload": {
     "psr-4": {
-      "CoolCatCoder\\": "src/"
+      "CoolCatCoder\\Corvus\\": "src/"
     }
   }
 }
