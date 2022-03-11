@@ -1,8 +1,8 @@
 <?php
 
-namespace Corvus;
+namespace CoolCatCoder\Corvus;
 
-use Corvus\Services\Corvus;
+use CoolCatCoder\Corvus\Services\Corvus;
 use Illuminate\Support\ServiceProvider;
 
 class CorvusServiceProvider extends ServiceProvider

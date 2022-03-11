@@ -1,6 +1,6 @@
 <?php
 
-namespace Corvus\Services;
+namespace CoolCatCoder\Corvus\Services;
 
 use \Illuminate\Support\Facades\Config;
 use GuzzleHttp\Client;

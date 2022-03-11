@@ -1,5 +1,5 @@
 <?php
-namespace Corvus\Services;
+namespace CoolCatCoder\Corvus\Services;
 
 
 use Exception;
