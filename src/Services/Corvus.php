@@ -3,14 +3,30 @@ namespace CoolCatCoder\Corvus\Services;
 
 
 use Exception;
-use \Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Corvus
+/**
+ * @mixin Builder
+ *
+ * @property float $amount
+ * @property string $currency
+ * @property string $order_number
+ * @property string $language
+ * @property string $cardholder_name
+ * @property string $cardholder_surname
+ * @property string $cardholder_address
+ * @property string $cardholder_city
+ * @property string $cardholder_zip_code
+ * @property string $cart
+ * @property string $require_complete
+ * @property string $subscription
+ * @property int $store_id
+ * @property string $version
+
+ */
+class Corvus extends Model
 {
-
-    protected $accessToken;
-    protected $currency;
-
     const allowedCurrencies = [
         'GBP', 'USD', 'EUR',
         'DKK', 'NOK', 'SEK',
@@ -20,48 +36,29 @@ class Corvus
         'CZK', 'ISK', 'BAM',
         'RSD'
     ];
+    protected $fillable = [
+        'amount',
+        'currency',
+        'cardholder_name',
+        'cardholder_surname',
+        'cardholder_address',
+        'cardholder_city',
+        'cardholder_zip_code',
+        'cardholder_email',
+        'cart',
+        'language',
+        'order_number',
+        'store_id',
+        'subscription',
+        'version',
+        'require_complete',
+    ];
 
-    public function __construct()
-    {
-        $this->client = new CorvusRequest();
-
-    }
-
-    public function setCorvusCheckout ( array $data = [])
-    {
-        $this->setCurrency($data);
-        $this->post = [
-            'amount'       => $data['total'],
-            'cardholder_address'           => $data['cardholder_address'],
-            'cardholder_city' => $data['cardholder_city'],
-            'cardholder_email'  => $data['cardholder_email'],
-            'cardholder_name'          => $data['cardholder_name'],
-            'cardholder_surname'        => $data['cardholder_surname'],
-            'cardholder_zip_code'   => $data['cardholder_zip'],
-            'cart'                      => $data['cart_description'],
-            'currency'                      => $this->getCurrency(),
-            'language'                      => $data['language'],
-            'order_number'                      => $data['order_number'],
-            'require_complete'                      => $data['require_complete'],
-            'store_id'                      => Config::get('corvus.store_id'),
-            'subscription'                      => $data['subscription'],
-            'version'                      => Config::get('corvus.version'),
-        ];
-
-        return $this->client->makeRequest($this->post);
-    }
-
-    public function setCurrency($currency = 'USD')
+    public function setCurrencyAttribute($currency = 'USD')
     {
         if (!in_array($currency, self::allowedCurrencies, true)) {
             throw new Exception('Currency is not supported by Corvus.');
         }
-
-        $this->currency = $currency;
-    }
-
-    public function getCurrency() :string
-    {
-        return $this->currency;
+        $this->attributes['currency'] = $currency;
     }
 }

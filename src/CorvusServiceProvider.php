@@ -19,7 +19,7 @@ class CorvusServiceProvider extends ServiceProvider
             __DIR__.'/../config/corvus.php' => config_path('corvus.php'),
         ]);
 
-        $this->app->alias('Corvus', 'CoolCoder\Corvus\Facades\Corvus');
+        $this->app->alias('Corvus', 'CoolCatCoder\Corvus\Facades\Corvus');
     }
 
     /**
