@@ -13,6 +13,7 @@ class CorvusManager
         $corvus = Corvus::make($data);
         $corvus->store_id = Config::get('corvus.store_id');
         $corvus->version = Config::get('corvus.version');
+        $corvus->require_complete = Config::get('corvus.require_complete');
         $formData = $corvus->toArray();
         ksort($formData);
 
