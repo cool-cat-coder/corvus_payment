@@ -22,16 +22,25 @@ class CorvusServiceProvider extends ServiceProvider
         $this->app->alias('Corvus', 'CoolCatCoder\Corvus\Facades\Corvus');
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
+    {
+        $this->registerCorvus();
+        $this->mergeConfig();
+    }
+
+    private function registerCorvus(): void
     {
         $this->app->singleton('corvus',function()
         {
             return new Corvus();
         });
+    }
+
+    private function mergeConfig(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/config.php',
+            'corvus'
+        );
     }
 }
