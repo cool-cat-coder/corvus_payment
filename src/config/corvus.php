@@ -7,5 +7,6 @@ return [
     'language' => 'hr',
     'currency' => 'HRK',
     'require_complete' => false,
-    'endpoint' => 'https://test-wallet.corvuspay.com/checkout/'
+    'endpoint' => env('CORVUS_CHECKOUT_ENDPOINT', 'https://test-wallet.corvuspay.com/checkout/'),
+    'status' => env('CORVUS_TRANSACTION_STATUS', ''),
 ];

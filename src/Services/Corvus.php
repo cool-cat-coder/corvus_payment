@@ -1,7 +1,6 @@
 <?php
 namespace CoolCatCoder\Corvus\Services;
 
-
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,14 +26,14 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Corvus extends Model
 {
-    const allowedCurrencies = [
-        'GBP', 'USD', 'EUR',
-        'DKK', 'NOK', 'SEK',
-        'CHF', 'CAD', 'HUF',
-        'BHD', 'AUD', 'RUB',
-        'PLN', 'RON', 'HRK',
-        'CZK', 'ISK', 'BAM',
-        'RSD'
+    const allowedCodesAndCurrencies = [
+        '826' => 'GBP', '840' => 'USD', '978' => 'EUR',
+        '208' => 'DKK', '578' => 'NOK', '752' => 'SEK',
+        '756' => 'CHF', '124' => 'CAD', '348' => 'HUF' ,
+        '048' => 'BHD' , '036' => 'AUD', '643' => 'RUB',
+        '985' => 'PLN' , '946' => 'RON', '191' => 'HRK',
+        '200' => 'CZK' , '352' => 'ISK' , '977' => 'BAM',
+        '941' => 'RSD'
     ];
     protected $fillable = [
         'amount',
@@ -56,9 +55,26 @@ class Corvus extends Model
 
     public function setCurrencyAttribute($currency = 'USD')
     {
-        if (!in_array($currency, self::allowedCurrencies, true)) {
+        $allowedCurrency = array_values($this->getCodeAnCurrency($currency));
+        if (!$allowedCurrency) {
             throw new Exception('Currency is not supported by Corvus.');
         }
-        $this->attributes['currency'] = $currency;
+        $this->attributes['currency'] = $allowedCurrency[0];
+    }
+
+    public function setCurrencyCodeAttribute($currency = 'USD')
+    {
+        $allowedCurrency = array_keys($this->getCodeAnCurrency($currency));
+        if (!$allowedCurrency) {
+            throw new Exception('Currency is not supported by Corvus.');
+        }
+        $this->attributes['currencyCode'] = $allowedCurrency[0];
+    }
+
+    private function getCodeAnCurrency( string $currency): array
+    {
+        return array_filter(self::allowedCodesAndCurrencies, function($codeAndCurrency) use ($currency) {
+            if($codeAndCurrency===$currency) return $codeAndCurrency;
+        });
     }
 }

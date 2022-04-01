@@ -1,13 +1,34 @@
 <?php
 
-
 namespace CoolCatCoder\Corvus\Services;
-
 
 use Illuminate\Support\Facades\Config;
 
 class CorvusManager
 {
+    private $transaction;
+
+    public function __construct()
+    {
+        $this->transaction = new Transaction();
+    }
+
+    public function getTransactionStatus(array $data)
+    {
+
+        $corvus = Corvus::make($data);
+
+        $transactionData = [
+            'order_number' => $data['order_number'],
+            'store_id' => Config::get('corvus.store_id'),
+            'currency_code' => '191',
+            'timestamp' => '201302041605',
+            'version' => 1.2,
+        ];
+        $signature = $this->transaction->createApiRequestSignature($transactionData);
+        return $this->transaction->checkTransactionStatus(array_merge($transactionData,['hash' => $signature] ));
+    }
+
     public function preparePostData($data = []) :array
     {
         $corvus = Corvus::make($data);
@@ -15,18 +36,7 @@ class CorvusManager
         $corvus->version = Config::get('corvus.version');
         $corvus->require_complete = Config::get('corvus.require_complete');
         $formData = $corvus->toArray();
-        ksort($formData);
 
-        return array_merge($formData, ['signature' => $this->createSignature($formData)]);
-    }
-
-    private function createSignature(array $formData = []): string
-    {
-        $signatureData = '';
-
-        foreach($formData as $key => $value) {
-            $signatureData .= $key.$value;
-        }
-        return hash_hmac('sha256', $signatureData, Config::get('corvus.api_key'));
+        return array_merge($formData, ['signature' => $this->transaction->createPostSignature($formData)]);
     }
 }
