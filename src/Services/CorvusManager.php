@@ -2,6 +2,7 @@
 
 namespace CoolCatCoder\Corvus\Services;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 
 class CorvusManager
@@ -19,11 +20,11 @@ class CorvusManager
         $corvus = Corvus::make($data);
 
         $transactionData = [
-            'order_number' => $data['order_number'],
+            'order_number' => $corvus->order_number,
             'store_id' => Config::get('corvus.store_id'),
-            'currency_code' => '191',
-            'timestamp' => '201302041605',
-            'version' => 1.2,
+            'currency_code' => $corvus->currencyCode,
+            'timestamp' => Carbon::now()->format('yyyyMMddHHmmss'),
+            'version' => Config::get('corvus.version'),
         ];
         $signature = $this->transaction->createApiRequestSignature($transactionData);
         return $this->transaction->checkTransactionStatus(array_merge($transactionData,['hash' => $signature] ));

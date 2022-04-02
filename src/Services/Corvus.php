@@ -35,9 +35,11 @@ class Corvus extends Model
         '200' => 'CZK' , '352' => 'ISK' , '977' => 'BAM',
         '941' => 'RSD'
     ];
+
     protected $fillable = [
         'amount',
         'currency',
+        'currencyCode',
         'cardholder_name',
         'cardholder_surname',
         'cardholder_address',

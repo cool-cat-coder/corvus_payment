@@ -3,6 +3,8 @@
 namespace CoolCatCoder\Corvus\Services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 
@@ -30,12 +32,11 @@ class Transaction
                 'cert' => storage_path('cert/CorvusPay.crt.pem'),
                 'ssl_key' => storage_path('cert/CorvusPay.key.pem'),
                 'timeout' => 20,
-                'connect_timeout' => 20,
             ]);
             $xml = simplexml_load_string($response->getBody(),'SimpleXMLElement',LIBXML_NOCDATA);
 
             return json_encode($xml);
-        }catch (GuzzleHttp\Exception\ClientException $e) {
+        }catch (ClientException $e) {
             $response = $e->getResponse();
             Log::error('Exception');
             Log::error(json_encode($response));
