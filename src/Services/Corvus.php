@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @property float $amount
  * @property string $currency
+ * @property string $currencyCode
  * @property string $order_number
  * @property string $language
  * @property string $cardholder_name
